@@ -9,18 +9,20 @@ const eventRoutes = require('./routes/eventRoutes');
 const app = express();
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+// Middleware
+app.use(express.json());
+
+const MONGODB_URI = 'mongodb+srv://sunmibolaj13:Sunmi123@cluster0.mongodb.net/?retryWrites=true&w=majority';
+
 // Connect to MongoDB Atlas
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => console.error('Failed to connect to MongoDB', err));
 
