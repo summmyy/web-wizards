@@ -1,0 +1,19 @@
+
+.signup-card h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+.signup-card form button {
+    background-color: #3498db;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+.signup-card form button:hover {
+    background-color: #2980b9;
+    border-radius: 35px;
+}

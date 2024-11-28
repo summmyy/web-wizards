@@ -1,51 +1,44 @@
 import React from 'react';
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Calendar, Clock, MapPin, Users, Filter, Search, Plus } from 'lucide-react';
+import { Card, CardContent, CardActions, CardMedia, Typography, Button } from '@mui/material';
+import { Calendar, Clock, MapPin, Users } from 'lucide-react';
+import axios from 'axios';
 
-// Event Card Component
-const EventCard = ({ event }) => {
-    return (
-      <Card className="hover:shadow-lg transition-shadow">
-        <CardHeader>
-          <img 
-            src="/api/placeholder/400/200"
-            alt={event.title}
-            className="rounded-t-lg h-48 w-full object-cover"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            <CardTitle>{event.title}</CardTitle>
-            <CardDescription>{event.description}</CardDescription>
-            
-            <div className="flex items-center text-sm text-gray-500">
-              <Calendar className="h-4 w-4 mr-2" />
-              <span>{event.date}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-500">
-              <Clock className="h-4 w-4 mr-2" />
-              <span>{event.time}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-500">
-              <MapPin className="h-4 w-4 mr-2" />
-              <span>{event.location}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-500">
-              <Users className="h-4 w-4 mr-2" />
-              <span>{event.capacity} spots available</span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-between items-center">
-          <span className="text-lg font-bold">${event.price}</span>
-          <Button>Book Now</Button>
-        </CardFooter>
-      </Card>
-    );
+const EventCard = ({ event, onBook }) => {
+  const handleBook = async () => {
+    try {
+      await axios.post(`http://localhost:3000/api/events/${event._id}/book`);
+      onBook(event._id); 
+    } catch (error) {
+      console.error("Error booking event:", error);
+    }
   };
+
+  return (
+    <Card className="hover:shadow-lg transition-shadow" style={{ margin: '1rem 0' }}>
+      <CardMedia
+        component="img"
+        height="200"
+        image="/api/placeholder/400/200"
+        alt={event.title}
+      />
+      <CardContent>
+        <Typography variant="h5">{event.title}</Typography>
+        <Typography variant="body2" color="textSecondary">{event.description}</Typography>
+        <div className="event-details" style={{ marginTop: '1rem' }}>
+          <Typography variant="body2" color="textSecondary"><Calendar className="icon" /> {new Date(event.date).toLocaleDateString()}</Typography>
+          <Typography variant="body2" color="textSecondary"><Clock className="icon" /> {new Date(event.date).toLocaleTimeString()}</Typography>
+          <Typography variant="body2" color="textSecondary"><MapPin className="icon" /> {event.location}</Typography>
+          <Typography variant="body2" color="textSecondary"><Users className="icon" /> {event.attendees.length} attendees</Typography>
+        </div>
+      </CardContent>
+      <CardActions className="flex justify-between items-center">
+        <Typography variant="h6" className="text-lg font-bold">${event.price}</Typography>
+        <Button variant="contained" color="primary" onClick={handleBook}>
+          Book Now
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
+
+export default EventCard;

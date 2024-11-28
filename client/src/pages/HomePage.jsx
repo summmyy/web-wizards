@@ -3,6 +3,7 @@ import { Container, Typography, Button, Card, CardContent } from "@mui/material"
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+
 const HomePage = () => {
   const [events, setEvents] = useState([]);
 
@@ -36,14 +37,28 @@ const HomePage = () => {
       >
         Create Event
       </Button>
-
       <Typography variant="h4" style={{ marginTop: "2rem" }}>
         Upcoming Events
       </Typography>
-
       {events.length > 0 ? (
         events.map((event) => (
           <Card key={event._id} style={{ margin: "1rem 0" }}>
             <CardContent>
               <Typography variant="h5">{event.name}</Typography>
-              <Typography variant="body2" color="textSeco
+              <Typography variant="body2" color="textSecondary">
+                {event.description}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {new Date(event.date).toLocaleDateString()}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))
+      ) : (
+        <Typography>No events available.</Typography>
+      )}
+    </Container>
+  );
+};
+
+export default HomePage;
