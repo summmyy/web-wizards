@@ -17,8 +17,6 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-const MONGODB_URI =
-    'mongodb+srv://sunmibolaj13:Sunmi123@cluster0.mongodb.net/?retryWrites=true&w=majority';
 
 // Connect to MongoDB Atlas
 connect(process.env.MONGODB_URI || MONGODB_URI)

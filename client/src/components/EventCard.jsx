@@ -1,38 +1,16 @@
-import React from 'react';
 import {
     Card,
     CardContent,
     CardActions,
-    CardMedia,
     Typography,
     Button,
 } from '@mui/material';
 import { Calendar, Clock, MapPin, Users } from 'lucide-react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 
-const EventCard = ({ event, onBook }) => {
-    const handleBook = async () => {
-        try {
-            await axios.post(
-                `http://localhost:3000/api/events/${event._id}/book`,
-            );
-            onBook(event._id);
-        } catch (error) {
-            console.error('Error booking event:', error);
-        }
-    };
-
+const EventCard = ({ event, onDelete, onEdit }) => {
     return (
-        <Card
-            className="hover:shadow-lg transition-shadow"
-            style={{ margin: '1rem 0' }}
-        >
-            <CardMedia
-                component="img"
-                height="200"
-                image="/api/placeholder/400/200"
-                alt={event.title}
-            />
+        <Card className="hover:shadow-lg transition-shadow" style={{ margin: '1rem 0' }}>
             <CardContent>
                 <Typography variant="h5">{event.title}</Typography>
                 <Typography variant="body2" color="textSecondary">
@@ -51,25 +29,34 @@ const EventCard = ({ event, onBook }) => {
                         <MapPin className="icon" /> {event.location}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
-                        <Users className="icon" /> {event.attendees.length}{' '}
-                        attendees
+                        <Users className="icon" /> {event.attendees.length} attendees
                     </Typography>
                 </div>
             </CardContent>
             <CardActions className="flex justify-between items-center">
-                <Typography variant="h6" className="text-lg font-bold">
-                    ${event.price}
-                </Typography>
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleBook}
+                    onClick={() => onEdit(event)} // Pass the entire event
                 >
-                    Book Now
+                    Edit Event
+                </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => onDelete(event)} // Pass the entire event
+                >
+                    Delete Event
                 </Button>
             </CardActions>
         </Card>
     );
+};
+
+EventCard.propTypes = {
+    event: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
 };
 
 export default EventCard;

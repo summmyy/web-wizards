@@ -37,3 +37,44 @@ export const getEventById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const deleteEvent = async (req, res) => {
+    try {
+        const event = await Event.findByIdAndDelete(req.params.id); // Direct deletion
+        if (event) {
+            res.json({ message: 'Event deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+export const updateEvent = async (req, res) => {
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    title: req.body.title,
+                    description: req.body.description,
+                    date: req.body.date,
+                    time: req.body.time,
+                    attendees: req.body.attendees,
+                },
+            },
+            { new: true, runValidators: true } // Return updated document and validate schema
+        );
+
+        if (updatedEvent) {
+            res.json(updatedEvent);
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
