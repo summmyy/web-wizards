@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
 import axios from 'axios';
 import EventCard from '../components/EventCard';
+import EditEventModal from '../components/EventEditModal';
 
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
-    const [updatedEvent, setUpdatedEvent] = useState({
-        title: '',
-        description: '',
-        date: '',
-        location: '',
-    });
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [currentEvent, setCurrentEvent] = useState(null);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -29,44 +26,46 @@ const EventsPage = () => {
         fetchEvents();
     }, []);
 
-    const handleDeleteEvent = async (eventId) => {
+    const handleDeleteEvent = async (event) => {
         try {
-            await axios.delete(`http://localhost:3000/api/events/${eventId}`, {
+            await axios.delete(`http://localhost:3000/api/events/${event._id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            setEvents(events.filter((event) => event._id !== eventId));
-            alert('Event deleted successfully');
+            setEvents(events.filter((e) => e._id !== event._id));
+            alert(`${event.title} has been deleted.`);
         } catch (error) {
             console.error('Error deleting event:', error);
         }
     };
 
-    const handleEditEvent = async (eventId) => {
+    const handleEditEvent = (event) => {
+        setCurrentEvent(event); // Set the current event to be edited
+        setIsEditOpen(true); // Open the modal
+    };
+
+    const handleSaveEdit = async (updatedEvent) => {
         try {
-            const eventToUpdate = events.find((event) => event._id === eventId);
-            const updatedEventData = {
-                title: updatedEvent.title || eventToUpdate.title,
-                description: updatedEvent.description || eventToUpdate.description,
-                date: updatedEvent.date || eventToUpdate.date,
-                location: updatedEvent.location || eventToUpdate.location,
-            };
             await axios.put(
-                `http://localhost:3000/api/events/${eventId}`, // Corrected usage of eventId
-                updatedEventData,
+                `http://localhost:3000/api/events/${updatedEvent._id}`,
+                updatedEvent,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
-                },
+                }
             );
+
             setEvents(
-                events.map((event) =>
-                    event._id === eventId ? { ...event, ...updatedEventData } : event,
-                ),
+                events.map((e) =>
+                    e._id === updatedEvent._id ? updatedEvent : e
+                )
             );
-            alert('Event updated successfully');
+
+            alert(`${updatedEvent.title} has been updated.`);
+            setIsEditOpen(false); // Close the modal
+            setCurrentEvent(null); // Clear the current event
         } catch (error) {
             console.error('Error updating event:', error);
         }
@@ -82,12 +81,22 @@ const EventsPage = () => {
                     <EventCard
                         key={event._id}
                         event={event}
-                        onDelete={handleDeleteEvent} // Pass delete handler
-                        onEdit={handleEditEvent}    // Pass edit handler
+                        onDelete={handleDeleteEvent}
+                        onEdit={handleEditEvent}
                     />
                 ))
             ) : (
                 <Typography>No events available.</Typography>
+            )}
+
+            {/* Render the Edit Event Modal */}
+            {currentEvent && (
+                <EditEventModal
+                    event={currentEvent}
+                    open={isEditOpen}
+                    onClose={() => setIsEditOpen(false) && setCurrentEvent(null)}
+                    onSave={handleSaveEdit}
+                />
             )}
         </Container>
     );

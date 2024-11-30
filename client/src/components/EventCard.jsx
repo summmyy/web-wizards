@@ -37,14 +37,14 @@ const EventCard = ({ event, onDelete, onEdit }) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => onEdit(event._id)} // Pass the event ID
+                    onClick={() => onEdit(event)} // Pass the entire event
                 >
                     Edit Event
                 </Button>
                 <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => onDelete(event._id)} // Pass the event ID
+                    onClick={() => onDelete(event)} // Pass the entire event
                 >
                     Delete Event
                 </Button>

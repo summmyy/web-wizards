@@ -40,9 +40,8 @@ export const getEventById = async (req, res) => {
 
 export const deleteEvent = async (req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const event = await Event.findByIdAndDelete(req.params.id); // Direct deletion
         if (event) {
-            await event.remove();
             res.json({ message: 'Event deleted successfully' });
         } else {
             res.status(404).json({ message: 'Event not found' });
@@ -52,17 +51,24 @@ export const deleteEvent = async (req, res) => {
     }
 };
 
+
 export const updateEvent = async (req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
-        if (event) {
-            event.title = req.body.title || event.title;
-            event.description = req.body.description || event.description;
-            event.date = req.body.date || event.date;
-            event.time = req.body.time || event.time;
-            event.attendees = req.body.attendees || event.attendees;
+        const updatedEvent = await Event.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    title: req.body.title,
+                    description: req.body.description,
+                    date: req.body.date,
+                    time: req.body.time,
+                    attendees: req.body.attendees,
+                },
+            },
+            { new: true, runValidators: true } // Return updated document and validate schema
+        );
 
-            const updatedEvent = await event.save();
+        if (updatedEvent) {
             res.json(updatedEvent);
         } else {
             res.status(404).json({ message: 'Event not found' });
@@ -70,4 +76,5 @@ export const updateEvent = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
+
