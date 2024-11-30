@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Container, Typography, Paper, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Container, Typography, Paper, Box, Button } from '@mui/material';
 import axios from 'axios';
 import '../styles/dashboard.css';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -40,6 +42,14 @@ const Dashboard = () => {
                 </Typography>
                 <Typography variant="h6">Name: {user?.name}</Typography>
                 <Typography variant="h6">Email: {user?.email}</Typography>
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate('/events')}
+                >
+                    Go to Events
+                </Button>
             </Box>
         </Container>
     );

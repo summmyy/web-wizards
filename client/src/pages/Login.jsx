@@ -17,12 +17,13 @@ const Login = () => {
 
             localStorage.setItem('token', response.data.token);
             navigate('/dashboard');
+            window.location.reload();
         } catch (error) {
             console.error('Error during login:', error);
             alert(error.response?.data?.message || 'Login failed.');
         }
     };
-
+    
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
