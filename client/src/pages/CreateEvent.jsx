@@ -10,7 +10,7 @@ import {
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
-import '../styles/create-event.css';
+// import '../styles/create-event.css';
 import dayjs from 'dayjs';
 
 const CreateEvent = () => {
