@@ -11,7 +11,7 @@ const Login = () => {
         try {
             e.preventDefault();
             const response = await axios.post(
-                'http://localhost:3000/api/users/login',
+                'https://web-wizards-ui0t.onrender.com/api/users/login',
                 user,
             );
 
