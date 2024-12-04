@@ -12,7 +12,7 @@ const EventsPage = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/events', {
+                const response = await axios.get('https://web-wizards-ui0t.onrender.com/api/events', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -28,7 +28,7 @@ const EventsPage = () => {
 
     const handleDeleteEvent = async (event) => {
         try {
-            await axios.delete(`http://localhost:3000/api/events/${event._id}`, {
+            await axios.delete(`https://web-wizards-ui0t.onrender.com/api/events/${event._id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -48,7 +48,7 @@ const EventsPage = () => {
     const handleSaveEdit = async (updatedEvent) => {
         try {
             await axios.put(
-                `http://localhost:3000/api/events/${updatedEvent._id}`,
+                `https://web-wizards-ui0t.onrender.com/api/events/${updatedEvent._id}`,
                 updatedEvent,
                 {
                     headers: {
