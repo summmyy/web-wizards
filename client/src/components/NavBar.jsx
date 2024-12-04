@@ -11,7 +11,7 @@ const Navbar = () => {
     const checkUserAuth = async () => {
         try {
             await axios.get(
-                'http://localhost:3000/api/users/me',
+                'https://web-wizards-ui0t.onrender.com/api/users/me',
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
