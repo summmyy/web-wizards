@@ -16,7 +16,7 @@ const HomePage = () => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:3000/api/events',
+                    'https://web-wizards-ui0t.onrender.com/api/events',
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -41,7 +41,7 @@ const HomePage = () => {
         const checkUserAuth = async () => {
             try {
                 await axios.get(
-                    'http://localhost:3000/api/users/me',
+                    'https://web-wizards-ui0t.onrender.com/api/users/me',
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
