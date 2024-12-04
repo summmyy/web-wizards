@@ -25,7 +25,7 @@ const CreateEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/api/events', event, {
+            await axios.post('https://web-wizards-ui0t.onrender.com/api/events', event, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
