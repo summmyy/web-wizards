@@ -10,7 +10,7 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            await axios.post('http://localhost:3000/api/users/register', user);
+            await axios.post('https://web-wizards-ui0t.onrender.com/api/users/register', user);
             alert('Signup successful! Please log in.');
             navigate('/login');
         } catch (error) {
