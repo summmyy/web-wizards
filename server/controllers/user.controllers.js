@@ -84,7 +84,7 @@ export const loginUser = async (req, res) => {
 export const deteleUserById = async (req, res) => {
     try {
         const user = await User.deleteOne({ _id: req.params.id });
-        res.json({ message: user });
+        res.status(200).json({ message: user });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
