@@ -6,15 +6,22 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import EventsPage from './pages/EventsPage';
 import Dashboard from './pages/Dashboard';
+import { useState } from 'react';
 function App() {
+    const [reload, setReload] = useState(false);
     return (
         <Router>
             <div>
-                <NavBar /> {}
+                <NavBar reload={reload} /> {}
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/create-event" element={<CreateEvent />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/login"
+                        element={
+                            <Login reload={reload} setReload={setReload} />
+                        }
+                    />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/events" element={<EventsPage />} />

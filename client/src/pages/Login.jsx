@@ -3,7 +3,8 @@ import { Container, TextField, Button, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+// eslint-disable-next-line react/prop-types
+const Login = ({ reload, setReload }) => {
     const [user, setUser] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
@@ -17,13 +18,13 @@ const Login = () => {
 
             localStorage.setItem('token', response.data.token);
             navigate('/dashboard');
-            window.location.reload();
+            setReload(!reload);
         } catch (error) {
             console.error('Error during login:', error);
             alert(error.response?.data?.message || 'Login failed.');
         }
     };
-    
+
     return (
         <Container>
             <Typography variant="h4" gutterBottom>

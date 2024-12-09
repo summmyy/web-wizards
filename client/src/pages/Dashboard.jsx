@@ -36,6 +36,7 @@ const Dashboard = () => {
                 component={Paper}
                 elevation={3}
                 className="dashboard-container"
+                p={5}
             >
                 <Typography variant="h4" gutterBottom>
                     Account Summary
